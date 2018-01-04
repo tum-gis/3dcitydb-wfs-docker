@@ -1,6 +1,6 @@
 # 3D City Database WFS Docker image
-This is the git repo of the (not jet, but hopefully soon to become) [official image](https://docs.docker.com/docker-hub/official_repos/) 
-for the [3D City Database(3DCityDB) Web Feature Service(WFS)](https://github.com/3dcitydb/web-feature-service).
+This is the git repo of the (not yet, but hopefully soon to become) [official image](https://docs.docker.com/docker-hub/official_repos/) 
+for the [3D City Database (3DCityDB) Web Feature Service(WFS)](https://github.com/3dcitydb/web-feature-service).
 It allows for the *instant* creation of a 3DCityDB WFS instance without having to setup and configure an e.g. Apache Tomcat server and deploy the WFS webapp.
 The 3DCityDB WFS Docker image was designed to work with [3DCityDB Docker containers](https://github.com/tum-gis/3dcitydb-docker) or any other 3DCityDB instance.
 All you need is a [Docker](https://www.docker.com/what-docker) installation and the image provided here.
