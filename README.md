@@ -245,7 +245,7 @@ docker run --name "citydb-container" -d -p 1234:5432 \
     -e "POSTGRES_USER=wfsuser" \
     -e "POSTGRES_PASSWORD=wfspw" \
     -e "CITYDBNAME=mycitydb" \
-    -e "SRSNAME=EPSG:31468" \
+    -e "SRSNAME=urn:adv:crs:DE_DHDN_3GK4*DE_DHN92_NH" \
     -e "SRSNO=31468" \
     3dcitydb
 ```
