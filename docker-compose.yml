@@ -1,0 +1,33 @@
+# Compose 3DCityDB and 3DCityDB WFS ###########################################
+###############################################################################
+version: "2.0"
+services:
+# 3DCityDB ####################################################################
+  citydb:
+    image: tumgis/3dcitydb-postgis:devel
+    ports:
+      - 5432:5432
+    environment:
+      - "CITYDBNAME=citydb"
+      - "SRID=31468"
+      - "SRSNAME=urn:adv:crs:DE_DHDN_3GK4*DE_DHN92_NH"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+      
+# 3DCityDB WFS ################################################################
+  citydb-wfs:
+    image: tumgis/3dcitydb-wfs:devel
+    ports:
+      - 8080:8080
+    links: 
+      - citydb:my-citydb
+    depends_on:
+      - citydb
+    command: ["wait-for-psql.sh","30","my-citydb","5432","postgres","postgres","citydb-wfs.sh","catalina.sh","run"]
+    environment:
+      - "CITYDB_CONNECTION_SERVER=my-citydb"
+      - "CITYDB_CONNECTION_PORT=5432"
+      - "CITYDB_CONNECTION_SID=citydb"
+      - "CITYDB_CONNECTION_USER=postgres"
+      - "CITYDB_CONNECTION_PASSWORD=postgres"
+    

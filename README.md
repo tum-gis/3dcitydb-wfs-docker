@@ -3,6 +3,9 @@ This repo contains a Dockerfile for the [3D City Database (3DCityDB) Web Feature
 
 The image provided here is based on the official [Apache Tomcat Docker image](https://hub.docker.com/_/tomcat/) and OpenJDK Java 8. An image based on Oracle Java is cannot be provided here due to licensing conditions. 
 
+#### Special features
+* [Docker Compose](https://docs.docker.com/compose/) file for running a 3DCityDB and a linked 3DCityDB WFS container with a single command
+
 #### Image versions/tags
 * **latest** - Latest stable version based on latest version of the 3DCityDB WFS. Built from [master](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/master) branch.
 * **devel** - Development version containing latest features. Based on latest version of the 3DCityDB WFS. Built from [devel](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel) branch. **Note: Visit the Github page of the devel branch branch for the [documentation of the latest features](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel).**
@@ -93,8 +96,10 @@ To run the 3DCityDB WFS Docker image you need to adapt the environment variables
 ## Usage examples
 Below some examples on how to run the 3DCityDB WFS Docker image are given. By *running* an image, a *container* is created from it. To get familiar with the terms *image* and *container* take a look at the [official Docker documentation](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/).
 
-A 3DCityDB WFS Docker container can be setup to use an arbitrary 3DCityDB instance. Below two example use cases are given. The first use case shows how to run a 3DCityDB WFS Docker container for a 3DCityDB instance on an arbitrary host.
-The second use case shows how to run a 3DCityDB WFS and Docker container and *link* it to a 3DCityDB Docker container running on the same Docker daemon. To get familiar with [Docker container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) take a look at the official documentation.
+A 3DCityDB WFS Docker container can be setup to use an arbitrary 3DCityDB instance. Below three example use cases are given.  
+The first use case shows how to run a 3DCityDB WFS Docker container for a 3DCityDB instance on an arbitrary host.  
+The second use case shows how to run a 3DCityDB WFS and Docker container and *link* it to a 3DCityDB Docker container running on the same Docker daemon. To get familiar with [Docker container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) take a look at the official documentation.  
+The third use case show how to run the containers of use case tow in a single command using [Docker Compose](https://docs.docker.com/compose/).
 
 #### 3DCityDB WFS with arbitrary 3DCityDB instance
 The 3DCityDB WFS container used in the example below is named *citydb-wfs-container* and based on the image named *tumgis/3dcitydb-wfs*. We want our WFS to be accessible on port `8765`.
@@ -148,7 +153,6 @@ docker exec -it citydb-container bash  # get an interactive bash shell on a runn
 > **Note:**  
 > In the examples above long commands are broken to several lines for readability using bash line continue ("\").
 
-<a name="usage-example-linked" />
 #### 3DCityDB WFS and 3DCityDB container linking
 Let's assume want to host a 3DcityDB and a 3DcityDB WFS form the same host using Docker. This can be done using [Docker container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/). When containers are linked, information about a source container can be sent to a recipient container. This allows the recipient to see selected data describing aspects of the source container.
 For instance, if a 3DCityDB WFS container is linked to a 3DCityDB container, the 3DCityDB WFS running in the WFS container can access the 3DCityDB container and query its database to respond to WFS requests. To establish links, Docker relies on *container names*. The example below shows how to create a 3DCityDB container and a 3DCityDB WFS container linked to it.
@@ -183,6 +187,36 @@ Second, we run a 3DCityDB WFS container as described in the examples above. Note
   ```
 
 Now you have a 3DCityDB and a 3DCityDB WFS runing! Take a look at the *Quickstart* section above to learn how to access your WFS when it's running.
+
+#### 3DCityDB and linked 3DCityDB WFS with Docker Compose
+Docker Compose is a tool for defining and running multi-container Docker applications. To learn more about Compose refer to the [official documentation](https://docs.docker.com/compose/). With Compose, you use a `YAML` file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
+
+In this repository a Compose `YAML` for running a 3DcityDB container with a linked 3DCityDB WFS container is provided. To use it, first clone this repository to your Docker host. Second, edit the environment of both the 3DCityDB and the 3DCityDB WFS service in the `docker-compose.yml` file. 
+
+To make sure the 3DcityDB WFS container won't fail on startup `wait-for-psql.sh` has been added to the container. `wait-for-psql.sh` will test a PostgresSQL server for availability in a 1s interval. If the server becomes available before `TIMEOUT` [s], a `COMMAND` with an arbitrary number of `ARGUMENTS` will be executed.
+```bash
+$ ./wait-for-psql.sh
+USAGE:
+wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGUMENTS...]
+Exit codes: 0 = Postgres available, 1 = timeout.
+```
+When editing `docker-compose.yml` make sure to provide the correct 3DCityDB server credentials in the `command` section of the 3DCityDB WFS service. Use the *link alias* as hostname for the 3DCityDB container (see explanation in example use case 2)!
+
+To start the 3DCityDB + 3DCityDB WFS services run [`docker-compose up`](https://docs.docker.com/compose/reference/up/). To remove the services use [`docker-compose down`](https://docs.docker.com/compose/reference/down/). More [Docker Compose]([official documentation](https://docs.docker.com/compose/) commands are available [here](https://docs.docker.com/compose/reference/overview/).
+```bash
+# 1. Clone this repo using git:
+git clone https://github.com/tum-gis/3dcitydb-wfs-docker.git
+cd 3dcitydb-wfs-docker  # switch to cloned directory
+git checkout devel      # for now, switch to devel branch
+
+# 2. Edit docker-compose.yml according to your needs
+
+# 3. Run 3DCityDB and 3DCityDB WFS services
+docker-compose up
+
+# 4. Remove services if not needed anymore
+docker-compose down
+```
 
 ## How to build
 To build a 3DCityDB Docker image from the Dockerfile in this repo yourself you simply need to download the source code from this repo and run the [`docker build`](https://docs.docker.com/engine/reference/commandline/build/) command. Follow the step below to build a 3DCityDB WFS Docker image or use the [`build.sh`](https://github.com/tum-gis/3dcitydb-wfs-docker/blob/master/build.sh) script.

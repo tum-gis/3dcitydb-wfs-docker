@@ -22,7 +22,9 @@ ENV CITYDB_WFS_CONTEXT_PATH=${citydb_wfs_context_path}
 
 RUN set -x \
   && cd $HOME \
-  && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget xmlstarlet && rm -rf /var/lib/apt/lists/* \
+  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
+  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+  && apt-get update && apt-get install -y --no-install-recommends ca-certificates postgresql-client-10 xmlstarlet && rm -rf /var/lib/apt/lists/* \  
   && wget "https://github.com/3dcitydb/web-feature-service/releases/download/v${CITYDB_WFS_VERSION}/citydb-wfs-${CITYDB_WFS_VERSION}.zip" -O 3dcitydb-wfs.zip \
   && mkdir -p 3dcitydb-wfs && unzip -j -d 3dcitydb-wfs 3dcitydb-wfs.zip "*/citydb-wfs.war" "*/lib/*.jar" && rm 3dcitydb-wfs.zip \
   && cp 3dcitydb-wfs/*.jar /usr/local/tomcat/lib/ \
@@ -35,5 +37,11 @@ COPY citydb-wfs.sh /usr/local/bin/
 RUN ln -s usr/local/bin/citydb-wfs.sh / # backwards compat
 RUN chmod u+x /usr/local/bin/citydb-wfs.sh
 
+# wait-for-psql script
+COPY wait-for-psql.sh /usr/local/bin/
+RUN ln -s usr/local/bin/wait-for-psql.sh / # backwards compat
+RUN chmod u+x /usr/local/bin/wait-for-psql.sh
+
 ENTRYPOINT ["citydb-wfs.sh"]
 CMD ["catalina.sh","run"]
+
