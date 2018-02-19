@@ -9,15 +9,9 @@ if [ -z ${TOMCAT_MAX_HEAP+x} ]; then
   export TOMCAT_MAX_HEAP=1024m;
 fi
 
-if [ -z ${TOMCAT_MAX_PERM_SIZE+x} ]; then
-  export TOMCAT_MAX_PERM_SIZE=512m;
-fi
-
 export CATALINA_OPTS="-Djava.awt.headless=true 
   -Dfile.encoding=UTF-8 
   -server -Xms1024m -Xmx${TOMCAT_MAX_HEAP}
-  -XX:PermSize=${TOMCAT_MAX_PERM_SIZE}
-  -XX:MaxPermSize=${TOMCAT_MAX_PERM_SIZE}
   -XX:+DisableExplicitGC"
 
 # Set default env #############################################################
@@ -28,16 +22,16 @@ if [ -z ${CITYDB_CONNECTION_TYPE+x} ]; then
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_TYPE=$CITYDB_CONNECTION_TYPE"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_TYPE=Oracle\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_TYPE=Oracle\" tumgis/3dcitydb-wfs"
 fi
 
 if [ -z ${CITYDB_CONNECTION_SERVER+x} ]; then
-  export CITYDB_CONNECTION_SERVER=citydb-host;
+  export CITYDB_CONNECTION_SERVER=localhost;
   echo
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_SERVER=$CITYDB_CONNECTION_SERVER"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_SERVER=my.other.host\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_SERVER=my.other.host\" tumgis/3dcitydb-wfs"
 fi
 
 if [ -z ${CITYDB_CONNECTION_PORT+x} ]; then
@@ -46,16 +40,16 @@ if [ -z ${CITYDB_CONNECTION_PORT+x} ]; then
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_PORT=$CITYDB_CONNECTION_PORT"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_PORT=1234\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_PORT=1234\" tumgis/3dcitydb-wfs"
 fi
 
 if [ -z ${CITYDB_CONNECTION_SID+x} ]; then
-  export CITYDB_CONNECTION_SID="3dcitydb-docker";
+  export CITYDB_CONNECTION_SID="citydb";
   echo
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_SID=$CITYDB_CONNECTION_SID"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_SID=citydb\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_SID=citydb\" tumgis/3dcitydb-wfs"
 fi
 
 if [ -z ${CITYDB_CONNECTION_USER+x} ]; then
@@ -64,16 +58,16 @@ if [ -z ${CITYDB_CONNECTION_USER+x} ]; then
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_USER=$CITYDB_CONNECTION_USER"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_USER=otheruser\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_USER=otheruser\" tumgis/3dcitydb-wfs"
 fi
 
 if [ -z ${CITYDB_CONNECTION_PASSWORD+x} ]; then
-  export CITYDB_CONNECTION_PASSWORD="";
+  export CITYDB_CONNECTION_PASSWORD="postgres";
   echo
   echo "NOTE: Environment variable not set, using default value:"
   echo "   CITYDB_CONNECTION_PASSWORD=$CITYDB_CONNECTION_PASSWORD"
   echo "   To change this setting run e.g.:"
-  echo "     docker run -e \"CITYDB_CONNECTION_PASSWORD=changeMe!!\" 3dcitydb-wfs"
+  echo "     docker run -e \"CITYDB_CONNECTION_PASSWORD=changeMe!!\" tumgis/3dcitydb-wfs"
 fi
 echo
 echo "# Setting up 3DCityDB WFS environment ...done! #################################"

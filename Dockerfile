@@ -3,7 +3,8 @@
 #   GitHub              https://github.com/3dcitydb/web-feature-service
 ###############################################################################
 # Base image
-FROM tomcat:8.5.24-jre8
+ARG baseimage_tag="8.5-jre8"
+FROM tomcat:${baseimage_tag}
 # Maintainer ##################################################################
 #   Bruno Willenborg
 #   Chair of Geoinformatics
@@ -35,5 +36,4 @@ RUN ln -s usr/local/bin/citydb-wfs.sh / # backwards compat
 RUN chmod u+x /usr/local/bin/citydb-wfs.sh
 
 ENTRYPOINT ["citydb-wfs.sh"]
-EXPOSE 8080
 CMD ["catalina.sh","run"]
