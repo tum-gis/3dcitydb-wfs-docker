@@ -175,7 +175,6 @@ Second, we run a 3DCityDB WFS container as described in the examples above. Note
   docker run --name "citydb-wfs-container" -d -p 8765:8080 \
       --link "citydb-container:citydb-container-alias" \
       -e "TOMCAT_MAX_HEAP=2048m" \
-      -e "TOMCAT_MAX_PERM_SIZE=1024m" \
       -e "CITYDB_CONNECTION_SERVER=citydb-container-alias" \
       -e "CITYDB_CONNECTION_USER=wfsuser" \
       -e "CITYDB_CONNECTION_PASSWORD=wfspw" \
