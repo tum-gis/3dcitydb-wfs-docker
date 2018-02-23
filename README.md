@@ -202,7 +202,7 @@ Exit codes: 0 = Postgres available, 1 = timeout.
 ```
 When editing `docker-compose.yml` make sure to provide the correct 3DCityDB server credentials in the `command` section of the 3DCityDB WFS service. Use the *link alias* as hostname for the 3DCityDB container (see explanation in example use case 2)!
 
-To start the 3DCityDB + 3DCityDB WFS services run [`docker-compose up`](https://docs.docker.com/compose/reference/up/). To remove the services use [`docker-compose down`](https://docs.docker.com/compose/reference/down/). More [Docker Compose]([official documentation](https://docs.docker.com/compose/) commands are available [here](https://docs.docker.com/compose/reference/overview/).
+To start the 3DCityDB + 3DCityDB WFS services run [`docker-compose up`](https://docs.docker.com/compose/reference/up/). To remove the services use [`docker-compose down`](https://docs.docker.com/compose/reference/down/). More [Docker Compose](https://docs.docker.com/compose/) commands are available in the [official documentation](https://docs.docker.com/compose/reference/overview/).
 ```bash
 # 1. Clone this repo using git:
 git clone https://github.com/tum-gis/3dcitydb-wfs-docker.git
