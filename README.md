@@ -30,8 +30,8 @@ The 3D City Database WFS interface is implemented against the latest version 2.0
 In this section you will find information on how to work with the 3DCityDB WFS Docker image. For a comprehensive description of all *environment variables* and *usage examples* look further below. For building your own image scroll down to the *build* section at the bottom.
 
 ### Quickstart
-To quickly get a 3DCityDB WFS instance running on Docker run following command and adapt the environment variables and the `-p` switch according to your needs. Use the environment variables to set the connection credentials for the 3DCityDB instance the WFS should use as data source.
-The `-p <host port:docker port>` switch of the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command allows you to specify on which port the 3DCityDB WFS instance will listen on your host system. For instance, use `-p 8765:8080` if you want to access the WFS instance on port *8765* of the system hosting the Docker container.
+To quickly get a 3DCityDB WFS instance running on Docker adapt the environment variable `-e` switches and the `-p` switch in the example below according to your needs. Use the environment variables to set the connection credentials for the 3DCityDB instance the WFS should use as data source.
+The `-p <host port:docker port>` switch of the [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command allows you to specify on which port the 3DCityDB WFS instance will listen on your host system. For instance, use `-p 8765:8080` if you want to access the WFS instance on port *8765* of the system hosting the WFS Docker container.
 #### Linux Bash
 ```bash
 docker run --name "citydb-wfs-container" -it -p 8080:8080 \
@@ -58,12 +58,13 @@ docker run --name "citydb-wfs-container" -it -p 8080:8080^
 > In the examples above long commands are broken to several lines for readability using the Bash (` \ `) or CMD (`^`) line continuation.  
 
 #### Test your WFS
-When the 3DCityDB WFS has started successfully the service you can access the service as follows, assuming the hostname and port of your Docker host are `my-docker-host`:`8080`.
-* Interactive browser frontend: `http://my-docker-host:8080/citydb-wfs/wfsclient`
-* OGC WFS interface: `http://my-docker-host:8080/citydb-wfs/wfs?`
+When the 3DCityDB WFS has started successfully there are two ways to access the service. We assume the hostname and port of your Docker host are `my-docker-host`:`8080`. The *interactive browser interface* for sending `POST` requests is available here:  
+`http://my-docker-host:8080/citydb-wfs/wfsclient`  
+The *OGC WFS interface* for `GET`requests is available here:  
+`http://my-docker-host:8080/citydb-wfs/wfs?`
 
-To see if your WFS is operational issue a `getCapabilities` request. You can either use the `GET` method or send a `POST` request using the interactive browser interface. To issue a `GET` request open the following URL in your browser:  
-`http://my-docker-host:8080/citydb-wfs/wfs?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities`
+To test if your WFS is operational issue a `getCapabilities` request. You can either use the `GET` method or send a `POST` request. To issue a `GET` request open the following URL in your browser:  
+`http://my-docker-host:8080/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities`
 
 To send a `POST` request copy the following `XML` to the web interface *WFS Request* field and hit the *send* button.
 ```xml
@@ -117,6 +118,7 @@ To run a 3DCityDB WFS container for the 3DCityDB instance described above use th
 docker run --name "citydb-wfs-container" -it -p 8765:8080 \
     -e "CITYDB_CONNECTION_TYPE=Oracle" \
     -e "CITYDB_CONNECTION_SERVER=my.citydb.host.de" \
+    -e "CITYDB_CONNECTION_PORT=1521" \
     -e "CITYDB_CONNECTION_USER=citydbuser" \
     -e "CITYDB_CONNECTION_PASSWORD=changeMe!" \
     -e "CITYDB_CONNECTION_SID=citydb" \
@@ -126,15 +128,17 @@ docker run --name "citydb-wfs-container" -it -p 8765:8080 \
 docker run --name "citydb-wfs-container" -it -p 8765:8080 \
     -e "CITYDB_CONNECTION_TYPE=Oracle" \
     -e "CITYDB_CONNECTION_SERVER=my.citydb.host.de" \
+    -e "CITYDB_CONNECTION_PORT=1521" \
     -e "CITYDB_CONNECTION_USER=citydbuser" \
     -e "CITYDB_CONNECTION_PASSWORD=changeMe!" \
     -e "CITYDB_CONNECTION_SID=citydb" \
   tumgis/3dcitydb-wfs bash
 
 # run container in detached (background) mode
-docker run --name "citydb-wfs-container" -d -p 8765:8080 \
+docker run --name "citydb-wfs-container" -dit -p 8765:8080 \
     -e "CITYDB_CONNECTION_TYPE=Oracle" \
     -e "CITYDB_CONNECTION_SERVER=my.citydb.host.de" \
+    -e "CITYDB_CONNECTION_PORT=1521" \
     -e "CITYDB_CONNECTION_USER=citydbuser" \
     -e "CITYDB_CONNECTION_PASSWORD=changeMe!" \
     -e "CITYDB_CONNECTION_SID=citydb" \
