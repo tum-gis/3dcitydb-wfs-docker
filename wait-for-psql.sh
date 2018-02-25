@@ -9,8 +9,25 @@ sleeptime=1
 # functions -------------------------------------------------------------------
 function usage {  
   printf '\nUSAGE:'
-  printf '\nwait-for-psql.sh wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGUMENTS...]' 
+  printf '\nwait-for-psql.sh wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGS]' 
   printf '\nExit codes: 0 = Postgres available, 1 = timeout.'
+}
+
+function usage()
+{
+    cat << USAGE >&2
+
+    
+Usage:
+   $cmdname wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGUMENTS...]
+    
+    TIMEOUT         Timeout in seconds
+    HOST            Host or IP under test
+    PORT            TCP port under test
+    USERNAME        postgres db user name
+    PASSWORD        postgres db user password
+    COMMAND ARGS    Execute command with args after the test finishes
+USAGE
 }
 
 # process arguments -----------------------------------------------------------
