@@ -204,13 +204,6 @@ Docker Compose is a tool for defining and running multi-container Docker applica
 
 In this repository a Compose `YAML` for running a 3DcityDB container with a linked 3DCityDB WFS container is provided. To use it, first clone this repository to your Docker host. Second, edit the environment of both the 3DCityDB and the 3DCityDB WFS service in the `docker-compose.yml` file. 
 
-To make sure the 3DcityDB WFS container won't fail on startup `wait-for-psql.sh` has been added to the container. `wait-for-psql.sh` will test a PostgresSQL server for availability in a 1s interval. If the server becomes available before `TIMEOUT` [s], a `COMMAND` with an arbitrary number of `ARGUMENTS` will be executed.
-```bash
-$ ./wait-for-psql.sh
-USAGE:
-wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGUMENTS...]
-Exit codes: 0 = Postgres available, 1 = timeout.
-```
 When editing `docker-compose.yml` make sure to provide the correct 3DCityDB server credentials in the `command` section of the 3DCityDB WFS service. Use the *link alias* as hostname for the 3DCityDB container (see explanation in example use case 2)!
 
 To start the 3DCityDB + 3DCityDB WFS services run [`docker-compose up`](https://docs.docker.com/compose/reference/up/). To remove the services use [`docker-compose down`](https://docs.docker.com/compose/reference/down/). More [Docker Compose](https://docs.docker.com/compose/) commands are available in the [official documentation](https://docs.docker.com/compose/reference/overview/).

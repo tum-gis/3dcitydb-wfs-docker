@@ -14,34 +14,34 @@ FROM tomcat:${baseimage_tag}
 MAINTAINER Bruno Willenborg, Chair of Geoinformatics, Technical University of Munich (TUM) <b.willenborg@tum.de>
 
 # Setup 3DCityDB WFS ##########################################################
-ARG citydb_wfs_version=3.3.2
-ENV CITYDB_WFS_VERSION=${citydb_wfs_version}
-
 ARG citydb_wfs_context_path="citydb-wfs"
 ENV CITYDB_WFS_CONTEXT_PATH=${citydb_wfs_context_path}
 
+ARG citydb_wfs_version="0c9d7eb56c9d4aa86f01f26937f777a17590c8da"
+ENV CITYDB_WFS_VERSION=${citydb_wfs_version}
+
+COPY lib/*.jar 3dcitydb-wfs/
+
 RUN set -x \
-  && cd $HOME \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
-  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && apt-get update && apt-get install -y --no-install-recommends ca-certificates postgresql-client-10 xmlstarlet && rm -rf /var/lib/apt/lists/* \  
-  && wget "https://github.com/3dcitydb/web-feature-service/releases/download/v${CITYDB_WFS_VERSION}/citydb-wfs-${CITYDB_WFS_VERSION}.zip" -O 3dcitydb-wfs.zip \
-  && mkdir -p 3dcitydb-wfs && unzip -j -d 3dcitydb-wfs 3dcitydb-wfs.zip "*/citydb-wfs.war" "*/lib/*.jar" && rm 3dcitydb-wfs.zip \
+  && RUNTIME_PACKAGES="xmlstarlet" \
+  && BUILD_PACKAGES="ca-certificates git ant openjdk-8-jdk" \ 
+  && apt-get update \
+  && apt-get install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
+  && git clone https://github.com/3dcitydb/web-feature-service.git wfs_temp \
+  && cd wfs_temp && git reset --hard "${CITYDB_WFS_VERSION}" \
+  && ant \
+  && unzip build/citydb-wfs.war -d /usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH} \
+  && cp build/version.txt ../ \
+  && cd .. && apt-get purge -y --auto-remove $BUILD_PACKAGES \
   && cp 3dcitydb-wfs/*.jar /usr/local/tomcat/lib/ \
-  && unzip 3dcitydb-wfs/citydb-wfs.war -d /usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH} \
-  && rm -r 3dcitydb-wfs \
-  && apt-get purge -y --auto-remove wget
+  && apt-get install -y --no-install-recommends openjdk-8-jre \
+  && rm -rf /var/lib/apt/lists/* \  
+  && rm -r 3dcitydb-wfs wfs_temp
 
 # Setup 3DCityDB WFS container entrypoint #####################################
 COPY citydb-wfs.sh /usr/local/bin/
 RUN ln -s usr/local/bin/citydb-wfs.sh / # backwards compat
 RUN chmod u+x /usr/local/bin/citydb-wfs.sh
 
-# wait-for-psql script
-COPY wait-for-psql.sh /usr/local/bin/
-RUN ln -s usr/local/bin/wait-for-psql.sh / # backwards compat
-RUN chmod u+x /usr/local/bin/wait-for-psql.sh
-
 ENTRYPOINT ["citydb-wfs.sh"]
 CMD ["catalina.sh","run"]
-
