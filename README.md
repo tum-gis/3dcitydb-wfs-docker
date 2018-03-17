@@ -1,5 +1,5 @@
 # 3D City Database WFS Docker image
-This repo contains a Dockerfile for the [3D City Database (3DCityDB) Web Feature Service (WFS)](https://github.com/3dcitydb/web-feature-service). It allows for the *instant* creation of a 3DCityDB WFS instance without having to setup and configure an e.g. Apache Tomcat server and deploy the WFS webapp. The 3DCityDB WFS Docker image was designed to work with [3DCityDB PostGIS Docker containers](https://github.com/tum-gis/3dcitydb-docker-postgis) or any other 3DCityDB instance. However, the WFS works with any exisiting 3DCityDB, both *Oracle* or *PostGIS*To get the image visit [tumgis/3dcitydb-wfs](https://hub.docker.com/r/tumgis/3dcitydb-wfs/) Dockerhub page.
+This repo contains a Dockerfile for the [3D City Database (3DCityDB) Web Feature Service (WFS)](https://github.com/3dcitydb/web-feature-service). It allows for the *instant* creation of a 3DCityDB WFS instance without having to setup and configure an e.g. Apache Tomcat server and deploy the WFS webapp. The 3DCityDB WFS Docker image was designed to work with [3DCityDB PostGIS Docker containers](https://github.com/tum-gis/3dcitydb-docker-postgis) or any other 3DCityDB instance. However, the WFS works with any exisiting 3DCityDB, both *Oracle* or *PostGIS*. To get the image visit [tumgis/3dcitydb-wfs](https://hub.docker.com/r/tumgis/3dcitydb-wfs/) Dockerhub page.
 
 The image provided here is based on the official [Apache Tomcat Docker image](https://hub.docker.com/_/tomcat/) and OpenJDK Java 8. An image based on Oracle Java is cannot be provided here due to licensing conditions. 
 
@@ -10,6 +10,13 @@ The image provided here is based on the official [Apache Tomcat Docker image](ht
 * **latest** - Latest stable version based on latest version of the 3DCityDB WFS. Built from [master](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/master) branch.
 * **devel** - Development version containing latest features. Based on latest version of the 3DCityDB WFS. Built from [devel](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel) branch. **Note: Visit the Github page of the devel branch branch for the [documentation of the latest features](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel).**
 * **v3.3.0**, **v3.3.1**, **v3.3.2** - Same content as **latest** image, but built with a specific version (**vX.X.X**) of the 3DCityDB WFS. Built from the branches named like the versions.
+
+Use `docker pull tumgis/3dcitydb-wfs:TAG` to download the latest version of the image with the specified `TAG` to your system.
+
+#### More 3DCityDB Docker Images
+Besides the Docker images form this repo images for the *3D City Database* and the *3D City Database Web-Map-Client* are available:
+* [3DCityDB Docker image](https://github.com/tum-gis/3dcitydb-postgis-docker/)  
+* [3DCityDB Web-Map-Client image](https://github.com/tum-gis/3dcitydb-web-map-docker/)
 
 > **Note:** Everything in this repo is in development stage. 
 > If you experience any problems or have a suggestion/improvement please let me know by creating an issue [here](https://github.com/tum-gis/3dcitydb-wfs-docker/issues).
