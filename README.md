@@ -14,7 +14,7 @@ The image provided here is based on the official [Apache Tomcat Docker image](ht
 Use `docker pull tumgis/3dcitydb-wfs:TAG` to download the latest version of the image with the specified `TAG` to your system.
 
 #### More 3DCityDB Docker Images
-Besides the Docker images form this repo images for the *3D City Database* and the *3D City Database Web-Map-Client* are available:
+Check out the Docker images for the *3D City Database* and the *3D City Database Web-Map-Client* too:
 * [3DCityDB Docker image](https://github.com/tum-gis/3dcitydb-postgis-docker/)  
 * [3DCityDB Web-Map-Client image](https://github.com/tum-gis/3dcitydb-web-map-docker/)
 
