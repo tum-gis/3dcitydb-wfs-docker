@@ -14,7 +14,7 @@ env:
   # - version: master
 
 before_install: 
-  - docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version} ./${version}
+  - docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version} .
 
 before_script:
   - docker run --name cdb -d tumgis/3dcitydb-postgis:latest-alpine
