@@ -24,11 +24,7 @@ script:
   - docker run --name wfs -d -p 8765:8080 --link "cdb:cdb" -e "CITYDB_CONNECTION_SERVER=cdb" tumgis/3dcitydb-wfs:${version}
   - sleep 10
   - docker logs wfs
-  - curl "http://127.0.0.1:8765/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities"
-  
-  # - docker logs ${version} | grep -Pzl "(?s)Setting up 3DCityDB ... done!.*database system is ready to accept connections"
-  # - docker logs ${version}-alpine | grep -Pzl "(?s)Setting up 3DCityDB ... done!.*database system is ready to accept connections"
-  
+  - curl "http://127.0.0.1:8765/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities" -s | grep '<wfs:WFS_Capabilities'
   
 notifications:
     slack: tum-gis:Z32lHXJDXaycOn4643NHSXaT
