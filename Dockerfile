@@ -17,27 +17,25 @@ MAINTAINER Bruno Willenborg, Chair of Geoinformatics, Technical University of Mu
 ARG citydb_wfs_context_path="citydb-wfs"
 ENV CITYDB_WFS_CONTEXT_PATH=${citydb_wfs_context_path}
 
-ARG citydb_wfs_version="0c9d7eb56c9d4aa86f01f26937f777a17590c8da"
+ARG citydb_wfs_version="v3.3.2"
 ENV CITYDB_WFS_VERSION=${citydb_wfs_version}
 
 COPY lib/*.jar 3dcitydb-wfs/
 
 RUN set -x \
-  && RUNTIME_PACKAGES="xmlstarlet" \
-  && BUILD_PACKAGES="ca-certificates git ant openjdk-8-jdk" \ 
+  && RUNTIME_PACKAGES="xmlstarlet  openjdk-8-jdk" \
+  && BUILD_PACKAGES="ca-certificates git" \
   && apt-get update \
   && apt-get install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
-  && git clone https://github.com/3dcitydb/web-feature-service.git wfs_temp \
-  && cd wfs_temp && git reset --hard "${CITYDB_WFS_VERSION}" \
-  && ant \
-  && unzip build/citydb-wfs.war -d /usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH} \
-  && cp build/version.txt ../ \
+  && git clone -b "${CITYDB_WFS_VERSION}" --depth 1 https://github.com/3dcitydb/web-feature-service.git wfs_temp \
+  && cd wfs_temp && chmod u+x ./gradlew && ./gradlew war \
+  && unzip build/libs/citydb-wfs.war -d /usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH} \
   && cd .. && apt-get purge -y --auto-remove $BUILD_PACKAGES \
   && cp 3dcitydb-wfs/*.jar /usr/local/tomcat/lib/ \
   && apt-get install -y --no-install-recommends openjdk-8-jre \
-  && rm -rf /var/lib/apt/lists/* \  
-  && rm -r 3dcitydb-wfs wfs_temp
-
+  && rm -r 3dcitydb-wfs wfs_temp \
+  && rm -rf /var/lib/apt/lists/*
+  
 # Setup 3DCityDB WFS container entrypoint #####################################
 COPY citydb-wfs.sh /usr/local/bin/
 RUN ln -s usr/local/bin/citydb-wfs.sh / # backwards compat
