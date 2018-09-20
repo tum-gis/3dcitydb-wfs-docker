@@ -5,19 +5,22 @@ services:
   - docker
 
 env:
-  - version: 0c9d7eb56c9d4aa86f01f26937f777a17590c8da
-  # - version: v3.0.0
-  # - version: v3.2.0
-  # - version: v3.3.0
-  # - version: v3.3.1
-  # - version: v3.3.2
-  # - version: master
+  - version: v3.3.0
+    citydb_version: v3.3.0-alpine
+  - version: v3.3.1
+    citydb_version: v3.3.1-alpine
+  - version: v3.3.2
+    citydb_version: v3.3.1-alpine
+  - version: v4.0.0
+    citydb_version: devel-alpine
+  - version: master
+    citydb_version: devel-alpine
 
 before_install: 
-  - docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version} .
+  - docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version} ./${version}
 
 before_script:
-  - docker run --name cdb -d tumgis/3dcitydb-postgis:latest-alpine
+  - docker run --name cdb -d tumgis/3dcitydb-postgis:${citydb_version}
 
 script:
   - sleep 30
