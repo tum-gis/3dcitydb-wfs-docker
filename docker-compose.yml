@@ -4,7 +4,7 @@ version: "2.0"
 services:
 # 3DCityDB ####################################################################
   citydb:
-    image: tumgis/3dcitydb-postgis:devel
+    image: tumgis/3dcitydb-postgis
     ports:
       - 5432:5432
     environment:
@@ -16,7 +16,7 @@ services:
       
 # 3DCityDB WFS ################################################################
   citydb-wfs:
-    image: wfs
+    image: tumgis/3dcitydb-wfs
     ports:
       - 8080:8080
     links: 
