@@ -16,24 +16,44 @@ LABEL source.repo="https://github.com/tum-gis/3dcitydb-wfs-docker"
 ARG citydb_wfs_context_path="citydb-wfs"
 ENV CITYDB_WFS_CONTEXT_PATH=${citydb_wfs_context_path}
 
-ARG citydb_wfs_version="v3.3.2"
+ARG citydb_wfs_version="v4.0.0"
 ENV CITYDB_WFS_VERSION=${citydb_wfs_version}
 
-COPY lib/*.jar 3dcitydb-wfs/
+ARG RUNTIME_PACKAGES="xmlstarlet openjdk-8-jre"
+ARG BUILD_PACKAGES="ca-certificates git openjdk-8-jdk"
 
-RUN set -x \
-  && RUNTIME_PACKAGES="xmlstarlet  openjdk-8-jdk" \
-  && BUILD_PACKAGES="ca-certificates git" \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
-  && git clone -b "${CITYDB_WFS_VERSION}" --depth 1 https://github.com/3dcitydb/web-feature-service.git wfs_temp \
-  && cd wfs_temp && chmod u+x ./gradlew && ./gradlew war \
-  && unzip build/libs/citydb-wfs.war -d /usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH} \
-  && cd .. && apt-get purge -y --auto-remove $BUILD_PACKAGES \
-  && cp 3dcitydb-wfs/*.jar /usr/local/tomcat/lib/ \
-  && apt-get install -y --no-install-recommends openjdk-8-jre \
-  && rm -r 3dcitydb-wfs wfs_temp \
-  && rm -rf /var/lib/apt/lists/*
+# Setup build deps
+RUN set -x && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends $BUILD_PACKAGES
+
+# Clone 3DCityDB WFS
+RUN set -x && \
+  git clone -b "${CITYDB_WFS_VERSION}" --depth 1 https://github.com/3dcitydb/web-feature-service.git wfs_temp
+
+# Build 3DCityDB WFS WAR
+RUN set -x && \
+  cd wfs_temp && chmod u+x ./gradlew && ./gradlew installDist
+
+# Extract WAR to Tomcat apps folder and copy libs
+RUN set -x && \
+  cd wfs_temp && \
+  unzip 'build/install/3DCityDB-Web-Feature-Service/citydb-wfs.war' -d "/usr/local/tomcat/webapps/${CITYDB_WFS_CONTEXT_PATH}" && \
+  ls -lA build/install/3DCityDB-Web-Feature-Service/lib && \
+  mv build/install/3DCityDB-Web-Feature-Service/lib/*.jar /usr/local/tomcat/lib/
+
+# Remove build deps
+RUN set -x && \
+  cd .. && apt-get purge -y --auto-remove $BUILD_PACKAGES
+
+# Setup runtime deps
+RUN set -x && \
+  apt-get install -y --no-install-recommends ${RUNTIME_PACKAGES}
+
+# Cleanup
+RUN set -x && \
+  rm -r wfs_temp && \
+  rm -rf /var/lib/apt/lists/*
   
 # Setup 3DCityDB WFS container entrypoint #####################################
 COPY citydb-wfs.sh /usr/local/bin/
