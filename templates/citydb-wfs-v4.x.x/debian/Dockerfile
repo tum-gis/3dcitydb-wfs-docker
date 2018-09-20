@@ -16,7 +16,7 @@ LABEL source.repo="https://github.com/tum-gis/3dcitydb-wfs-docker"
 ARG citydb_wfs_context_path="citydb-wfs"
 ENV CITYDB_WFS_CONTEXT_PATH=${citydb_wfs_context_path}
 
-ARG citydb_wfs_version="v4.0.0"
+ARG citydb_wfs_version='%%CITYDB_WFS_VERSION%%'
 ENV CITYDB_WFS_VERSION=${citydb_wfs_version}
 
 ARG RUNTIME_PACKAGES="xmlstarlet openjdk-8-jre"
@@ -25,7 +25,7 @@ ARG BUILD_PACKAGES="ca-certificates git openjdk-8-jdk"
 # Setup build deps
 RUN set -x && \
   apt-get update && \
-  apt-get install -y --no-install-recommends $BUILD_PACKAGES
+  apt-get install -y --no-install-recommends ${BUILD_PACKAGES}
 
 # Clone 3DCityDB WFS
 RUN set -x && \
@@ -44,7 +44,7 @@ RUN set -x && \
 
 # Remove build deps
 RUN set -x && \
-  cd .. && apt-get purge -y --auto-remove $BUILD_PACKAGES
+  cd .. && apt-get purge -y --auto-remove ${BUILD_PACKAGES}
 
 # Setup runtime deps
 RUN set -x && \

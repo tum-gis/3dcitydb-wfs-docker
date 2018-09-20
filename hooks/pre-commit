@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# 3DCityDB WFS v3.x.x ---------------------------------------------------------
+declare -a citydb_wfs_versions=("v3.3.0" "v3.3.1" "v3.3.2")
+scripts='templates/citydb-wfs.sh templates/wait-for-psql.sh'
+
+for i in "${citydb_wfs_versions[@]}"
+do
+  version="${i}"
+  version_alpine="${i}/alpine"
+  df_version=${version}/Dockerfile
+  df_version_alpine=${version_alpine}/Dockerfile
+  echo $version
+  echo $version_alpine
+  
+  # clear existing version folder
+  rm -rf ${version}
+  mkdir -p ${version}
+  mkdir -p ${version_alpine}
+    
+  # template -> Dockerfile, replace %%CITYDB_WFS_VERSION%% in template
+  sed -e "s/%%CITYDB_WFS_VERSION%%/${version}/g" "templates/citydb-wfs-v3.x.x/debian/Dockerfile" > ${df_version}
+  # sed -e "s/%%CITYDB_WFS_VERSION%%/${version}/g" "templates/citydb-wfs-v3.x.x/alpine/Dockerfile" > ${df_version_alpine}
+  
+  # copy scripts
+  cp $scripts ${version}
+  cp $scripts ${version_alpine}
+  
+  git add ${version} ${version_alpine}  
+done
+
+# 3DCityDB WFS v4.x.x ---------------------------------------------------------
+declare -a citydb_wfs_versions=("v4.0.0")
+scripts='templates/citydb-wfs.sh'
+
+for i in "${citydb_wfs_versions[@]}"
+do
+  version="${i}"
+  version_alpine="${i}/alpine"
+  df_version=${version}/Dockerfile
+  df_version_alpine=${version_alpine}/Dockerfile
+  echo $version
+  echo $version_alpine
+  
+  # clear existing version folder
+  rm -rf ${version}
+  mkdir -p ${version}
+  mkdir -p ${version_alpine}
+    
+  # template -> Dockerfile, replace %%CITYDB_WFS_VERSION%% in template
+  sed -e "s/%%CITYDB_WFS_VERSION%%/${version}/g" "templates/citydb-wfs-v4.x.x/debian/Dockerfile" > ${df_version}
+  # sed -e "s/%%CITYDB_WFS_VERSION%%/${version}/g" "templates/citydb-wfs-v4.x.x/alpine/Dockerfile" > ${df_version_alpine}
+  
+  # copy scripts
+  cp $scripts ${version}
+  cp $scripts ${version_alpine}
+  
+  git add ${version} ${version_alpine}  
+done
