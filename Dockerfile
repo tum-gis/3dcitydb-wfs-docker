@@ -5,13 +5,12 @@
 # Base image
 ARG baseimage_tag="8.5-jre8"
 FROM tomcat:${baseimage_tag}
-# Maintainer ##################################################################
-#   Bruno Willenborg
-#   Chair of Geoinformatics
-#   Department of Civil, Geo and Environmental Engineering
-#   Technical University of Munich (TUM)
-#   <b.willenborg@tum.de>
-MAINTAINER Bruno Willenborg, Chair of Geoinformatics, Technical University of Munich (TUM) <b.willenborg@tum.de>
+
+# Labels ######################################################################
+LABEL maintainer="Bruno Willenborg"
+LABEL maintainer.email="b.willenborg(at)tum.de"
+LABEL maintainer.organization="Chair of Geoinformatics, Technical University of Munich (TUM)"
+LABEL source.repo="https://github.com/tum-gis/3dcitydb-wfs-docker"
 
 # Setup 3DCityDB WFS ##########################################################
 ARG citydb_wfs_context_path="citydb-wfs"
