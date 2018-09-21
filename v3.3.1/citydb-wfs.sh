@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # 3DCityDB WFS Docker ENTRYPONT ###############################################
 
 # Print commands and their arguments as they are executed

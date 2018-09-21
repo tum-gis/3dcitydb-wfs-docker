@@ -7,9 +7,10 @@
 sleeptime=1
 
 # functions -------------------------------------------------------------------
-function usage {  
+function usage {
+  local me=`basename "$0"`
   printf '\nUSAGE:'
-  printf '\nwait-for-psql.sh wait-for-psql.sh TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGS]' 
+  printf "\n${me} TIMEOUT HOST PORT USERNAME PASSWORD [COMMAND] [ARGS]"
   printf '\nExit codes: 0 = Postgres available, 1 = timeout.'
 }
 
