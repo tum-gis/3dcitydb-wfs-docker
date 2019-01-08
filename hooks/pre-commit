@@ -30,7 +30,7 @@ do
 done
 
 # 3DCityDB WFS v4.x.x ---------------------------------------------------------
-declare -a citydb_wfs_versions=("v4.0.0" "master")
+declare -a citydb_wfs_versions=("v4.0.0" "v4.1.0" "master")
 scripts='templates/citydb-wfs.sh'
 
 for i in "${citydb_wfs_versions[@]}"

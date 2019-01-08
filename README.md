@@ -52,7 +52,7 @@ Check out the Docker images for the *3D City Database* and the *3D City Database
 
 * **latest** - Latest stable version based on latest version of the 3DCityDB WFS. Built from [master](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/master) branch.
 * **devel** - Development version containing latest features. Based on latest version of the 3DCityDB WFS. Built from [devel](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel) branch. **Note: Visit the Github page of the devel branch branch for the [documentation of the latest features](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel).**
-* **v3.3.0**, **v3.3.1**, **v3.3.2**, **v4.0.0** - Same content as **latest** image, but built with a specific version (**vX.X.X**) of the 3DCityDB WFS.
+* **v3.3.0**, **v3.3.1**, **v3.3.2**, **v4.0.0**, **v4.1.0** - Same content as **latest** image, but built with a specific version (**vX.X.X**) of the 3DCityDB WFS.
 
 Use `docker pull tumgis/3dcitydb-wfs:TAG` to download the latest version of the image with the specified `TAG` to your system.
 

@@ -13,6 +13,8 @@ env:
     citydb_version: v3.3.1-alpine
   - version: v4.0.0
     citydb_version: devel-alpine
+  - version: v4.1.0
+    citydb_version: devel-alpine
   - version: master
     citydb_version: devel-alpine
 
