@@ -11,8 +11,9 @@ The image provided here is based on the official [Apache Tomcat Docker image](ht
 
 ## News
 
-* Build status: [![Build Status](https://img.shields.io/travis/tum-gis/3dcitydb-wfs-docker/master.svg?label=master)](https://travis-ci.org/tum-gis/3dcitydb-wfs-docker) [![Build Status](https://img.shields.io/travis/tum-gis/3dcitydb-wfs-docker/devel.svg?label=devel)](https://travis-ci.org/tum-gis/3dcitydb-wfs-docker#devel)
-* 2018/09: 3DCityDB WFS v4.0.0 update
+Build status: [![Build Status](https://img.shields.io/travis/tum-gis/3dcitydb-wfs-docker/master.svg?label=master)](https://travis-ci.org/tum-gis/3dcitydb-wfs-docker) [![Build Status](https://img.shields.io/travis/tum-gis/3dcitydb-wfs-docker/devel.svg?label=devel)](https://travis-ci.org/tum-gis/3dcitydb-wfs-docker#devel)
+
+* 2019-07: 3DCityDB WFS v4.2.0 update added
 
 ## Features
 
@@ -27,32 +28,32 @@ Check out the Docker images for the *3D City Database* and the *3D City Database
 
 ## Content
 
-* [News](#news)
-* [Features](#features)
-* [More 3DCityDB Docker Images](#more-3dcitydb-docker-images)
-* [Content](#content)
-* [Image versions/tags](#image-versionstags)
-* [What is the 3D City Database Web Feature Service](#what-is-the-3d-city-database-web-feature-service)
-* [How to use this image](#how-to-use-this-image)
-  * [Quickstart](#quickstart)
-    * [Linux Bash](#linux-bash)
-    * [Windows CMD](#windows-cmd)
-    * [Test your WFS](#test-your-wfs)
-* [Environment variables](#environment-variables)
-* [Usage examples](#usage-examples)
-  * [3DCityDB WFS with arbitrary 3DCityDB instance](#3dcitydb-wfs-with-arbitrary-3dcitydb-instance)
-  * [3DCityDB WFS and 3DCityDB container linking](#3dcitydb-wfs-and-3dcitydb-container-linking)
-    * [Run 3DCityDB container](#run-3dcitydb-container)
-    * [Run linked 3DCityDB WFS container](#run-linked-3dcitydb-wfs-container)
-    * [3DCityDB and linked 3DCityDB WFS with Docker Compose](#3dcitydb-and-linked-3dcitydb-wfs-with-docker-compose)
-* [How to build](#how-to-build)
-  * [Build parameters](#build-parameters)
+* [News](#News)
+* [Features](#Features)
+* [More 3DCityDB Docker Images](#More-3DCityDB-Docker-Images)
+* [Content](#Content)
+* [Image versions/tags](#Image-versionstags)
+* [What is the 3D City Database Web Feature Service](#What-is-the-3D-City-Database-Web-Feature-Service)
+* [How to use this image](#How-to-use-this-image)
+  * [Quickstart](#Quickstart)
+    * [Linux Bash](#Linux-Bash)
+    * [Windows CMD](#Windows-CMD)
+    * [Test your WFS](#Test-your-WFS)
+* [Environment variables](#Environment-variables)
+* [Usage examples](#Usage-examples)
+  * [3DCityDB WFS with arbitrary 3DCityDB instance](#3DCityDB-WFS-with-arbitrary-3DCityDB-instance)
+  * [3DCityDB WFS and 3DCityDB container linking](#3DCityDB-WFS-and-3DCityDB-container-linking)
+    * [Run 3DCityDB container](#Run-3DCityDB-container)
+    * [Run linked 3DCityDB WFS container](#Run-linked-3DCityDB-WFS-container)
+    * [3DCityDB and linked 3DCityDB WFS with Docker Compose](#3DCityDB-and-linked-3DCityDB-WFS-with-Docker-Compose)
+* [How to build](#How-to-build)
+  * [Build parameters](#Build-parameters)
 
 ## Image versions/tags
 
 * **latest** - Latest stable version based on latest version of the 3DCityDB WFS. Built from [master](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/master) branch.
 * **devel** - Development version containing latest features. Based on latest version of the 3DCityDB WFS. Built from [devel](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel) branch. **Note: Visit the Github page of the devel branch branch for the [documentation of the latest features](https://github.com/tum-gis/3dcitydb-wfs-docker/tree/devel).**
-* **v3.3.0**, **v3.3.1**, **v3.3.2**, **v4.0.0**, **v4.1.0** - Same content as **latest** image, but built with a specific version (**vX.X.X**) of the 3DCityDB WFS.
+* **v3.3.0**, **v3.3.1**, **v3.3.2**, **v4.0.0**, **v4.1.0**, **v4.2.0** - Same content as **latest** image, but built with a specific version (**vX.X.X**) of the 3DCityDB WFS.
 
 Use `docker pull tumgis/3dcitydb-wfs:TAG` to download the latest version of the image with the specified `TAG` to your system.
 

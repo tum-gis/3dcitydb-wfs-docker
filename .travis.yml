@@ -15,6 +15,8 @@ env:
     citydb_version: devel-alpine
   - version: v4.1.0
     citydb_version: devel-alpine
+  - version: v4.2.0
+    citydb_version: devel-alpine
   - version: master
     citydb_version: devel-alpine
 
