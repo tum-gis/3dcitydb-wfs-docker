@@ -1,39 +1,39 @@
-language: bash
-sudo: required
-
+os: linux
+dist: bionic
+language: shell
 services:
-  - docker
-
+- docker
 env:
-  - version: v3.3.0
-    citydb_version: v3.3.0-alpine
-  - version: v3.3.1
-    citydb_version: v3.3.1-alpine
-  - version: v3.3.2
-    citydb_version: v3.3.1-alpine
-  - version: v4.0.0
-    citydb_version: devel-alpine
-  - version: v4.1.0
-    citydb_version: devel-alpine
-  - version: v4.2.0
-    citydb_version: devel-alpine
-  - version: master
-    citydb_version: devel-alpine
-
-before_install: 
-  - docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version} ./${version}
-
+- version: v3.3.0
+  citydb_version: v3.3.0-alpine
+- version: v3.3.1
+  citydb_version: v3.3.1-alpine
+- version: v3.3.2
+  citydb_version: v3.3.1-alpine
+- version: v4.0.0
+  citydb_version: v4.0.2
+- version: v4.1.0
+  citydb_version: v4.0.2
+- version: v4.2.0
+  citydb_version: v4.0.2
+- version: master
+  citydb_version: devel
+before_install:
+- docker build --build-arg citydb_wfs_version=${version} -t tumgis/3dcitydb-wfs:${version}
+  ./${version}
 before_script:
-  - docker run --name cdb -d tumgis/3dcitydb-postgis:${citydb_version}
-
+- docker run --name cdb -d -e POSTGRES_PASSWORD=postgres tumgis/3dcitydb-postgis:${citydb_version}
+- docker ps -a
+- sleep 60
 script:
-  - sleep 30
-  - docker run --name wfs -d -p 8765:8080 --link "cdb:cdb" -e "CITYDB_CONNECTION_SERVER=cdb" tumgis/3dcitydb-wfs:${version}
-  - sleep 10
-  - docker logs wfs
-  - curl "http://127.0.0.1:8765/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities" -s | grep '<wfs:WFS_Capabilities'
-  
+- docker run --name wfs -d -p 8765:8080 --link "cdb:cdb" -e "CITYDB_CONNECTION_SERVER=cdb"
+  tumgis/3dcitydb-wfs:${version}
+- sleep 10
+- docker logs wfs
+- curl "http://127.0.0.1:8765/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities"
+  -s | grep '<wfs:WFS_Capabilities'
 notifications:
-    slack: tum-gis:Z32lHXJDXaycOn4643NHSXaT
-    on_success: change
-    on_failure: always
+  slack:
+    secure: xij5XeoV4qEIdlQb9sGuYPkFNwfJu4P9tllvvvE/zNMcI02lNyzLNCxW/8P5rusbenGgUijGVvLJk1F9+he7Bz84sUo3LP9ood3W9Wz380UPVYtlavexDENOheOseWl3yAG0eayjjSlLb1csYW6Zhg4rZw/6KsnoN9EcW3ST13y6AzPv0Hx2gZFUZVMRw0opNOP+CFXPkvMbRVhNIGl0ZngDBIriFzYID6vKj150nSh8sSpCHuCuMPM9vDduaoRXAadnGHsnWuVSQZHsVDv25L/OLjbtzVg6+FjuzfjqE7a9YIaZiDIttpgGEf0/zLk3Utexys6Waf9u6cPkFbKBZeQTUR014gMkEB7ulAKe3msuxUXG1Szl5phzXqa1iFVJ5XzrpdRP94dcqeGX2iyg4NWuPmSIovUNS+I6JPN2vVFR6AzBWufwG/1/RWc/q5NL9vlq1ijkGtMJT/W1iUXwQQTOdAWkCaKHmW2uwStB77ndAOGcd5aZQYhOQhV1uMC4FVJmKdp6TLEuW1NuOL/w9ABGiwDdbK1Jod/NiMJBJ87EJcMfIo3Kbg3hujNjfO1zQCLvF1oqtoCOJfRlRZt89L/6lEVqj7jjjaftlt2cSO4iuWHjcZLioaQH0zmKT6liNvQQzQvaR3LsAmSYAW9Nb+/t/XWJ5AkGpugBpAkjyIw=
+  ogn_success: change
+  on_failure: always
