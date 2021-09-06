@@ -1,5 +1,21 @@
 # 3D City Database WFS Docker image
 
+**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+**Deprecation notice:** This repository has been deprecated on 6th of September 2021.
+The Docker images and this documentation will no longer be updated, because the content
+has moved to the [official 3DCityDB repository](https://github.com/3dcitydb). The old
+images will remain available on DockerHub, however, we recommend to migrate to the new
+version.
+
+Please find the **new Docker images** and **updated documentation** here:
+
+* Source code, Dockerfiles: https://github.com/3dcitydb/web-feature-service
+* Documentation: https://3dcitydb-docs.readthedocs.io/en/latest/wfs/docker.html
+* Docker image repository: https://hub.docker.com/repository/docker/3dcitydb/wfs
+
+**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
 This repo contains a Dockerfile for the [3D City Database (3DCityDB) Web Feature Service (WFS)](https://github.com/3dcitydb/web-feature-service). It allows for the *instant* creation of a 3DCityDB WFS instance without having to setup and configure e.g. an Apache Tomcat server and deploy the WFS webapp. The 3DCityDB WFS Docker image was designed to work with [3DCityDB PostGIS Docker containers](https://github.com/tum-gis/3dcitydb-docker-postgis) or any other 3DCityDB instance. The WFS image works with any exisiting 3DCityDB, both *Oracle* or *PostGIS* version are supported.
 
 To get the image visit the [tumgis/3dcitydb-wfs](https://hub.docker.com/r/tumgis/3dcitydb-wfs/) Dockerhub page.
@@ -28,26 +44,27 @@ Check out the Docker images for the *3D City Database* and the *3D City Database
 
 ## Content
 
-* [News](#News)
-* [Features](#Features)
-* [More 3DCityDB Docker Images](#More-3DCityDB-Docker-Images)
-* [Content](#Content)
-* [Image versions/tags](#Image-versionstags)
-* [What is the 3D City Database Web Feature Service](#What-is-the-3D-City-Database-Web-Feature-Service)
-* [How to use this image](#How-to-use-this-image)
-  * [Quickstart](#Quickstart)
-    * [Linux Bash](#Linux-Bash)
-    * [Windows CMD](#Windows-CMD)
-    * [Test your WFS](#Test-your-WFS)
-* [Environment variables](#Environment-variables)
-* [Usage examples](#Usage-examples)
-  * [3DCityDB WFS with arbitrary 3DCityDB instance](#3DCityDB-WFS-with-arbitrary-3DCityDB-instance)
-  * [3DCityDB WFS and 3DCityDB container linking](#3DCityDB-WFS-and-3DCityDB-container-linking)
-    * [Run 3DCityDB container](#Run-3DCityDB-container)
-    * [Run linked 3DCityDB WFS container](#Run-linked-3DCityDB-WFS-container)
-    * [3DCityDB and linked 3DCityDB WFS with Docker Compose](#3DCityDB-and-linked-3DCityDB-WFS-with-Docker-Compose)
-* [How to build](#How-to-build)
-  * [Build parameters](#Build-parameters)
+- [3D City Database WFS Docker image](#3d-city-database-wfs-docker-image)
+  - [News](#news)
+  - [Features](#features)
+  - [More 3DCityDB Docker Images](#more-3dcitydb-docker-images)
+  - [Content](#content)
+  - [Image versions/tags](#image-versionstags)
+  - [What is the 3D City Database Web Feature Service](#what-is-the-3d-city-database-web-feature-service)
+  - [How to use this image](#how-to-use-this-image)
+    - [Quickstart](#quickstart)
+      - [Linux Bash](#linux-bash)
+      - [Windows CMD](#windows-cmd)
+      - [Test your WFS](#test-your-wfs)
+  - [Environment variables](#environment-variables)
+  - [Usage examples](#usage-examples)
+    - [3DCityDB WFS with arbitrary 3DCityDB instance](#3dcitydb-wfs-with-arbitrary-3dcitydb-instance)
+    - [3DCityDB WFS and 3DCityDB container linking](#3dcitydb-wfs-and-3dcitydb-container-linking)
+      - [Run 3DCityDB container](#run-3dcitydb-container)
+      - [Run linked 3DCityDB WFS container](#run-linked-3dcitydb-wfs-container)
+      - [3DCityDB and linked 3DCityDB WFS with Docker Compose](#3dcitydb-and-linked-3dcitydb-wfs-with-docker-compose)
+  - [How to build](#how-to-build)
+    - [Build parameters](#build-parameters)
 
 ## Image versions/tags
 
@@ -64,10 +81,10 @@ The OGC Web Feature Service (WFS) interface for the 3D City Database enables web
 The 3D City Database WFS interface is implemented against the latest version 2.0 of the [OGC Web Feature Service standard](http://www.opengeospatial.org/standards/wfs) and hence is compliant with ISO 19142:2010. Previous versions of the WFS standard are not supported. The implementation currently satisfies the `Simple WFS` conformance class. The development of the WFS is led by the company [virtualcitySYSTEMS](http://www.virtualcitysystems.de/) which offers an extended version of the WFS with additional functionalities that go beyond the Simple WFS class (e.g., thematic and spatial filter capabilities and transaction support). This additional functionality may be fed back to the open source project in future releases.
 
 ![3DCityDB](https://www.3dcitydb.org/3dcitydb/fileadmin/default/templates/images/logo.jpg "3DCityDB logo")
-> [3DCityDB Official Homepage](https://www.3dcitydb.net/)  
-> [3DCityDB WFS Github](https://github.com/3dcitydb/web-feature-service)  
-> [3DCityDB Github](https://github.com/3dcitydb/3dcitydb)  
-> [CityGML Official Homepage](https://www.citygml.org/)  
+> [3DCityDB Official Homepage](https://www.3dcitydb.net/)
+> [3DCityDB WFS Github](https://github.com/3dcitydb/web-feature-service)
+> [3DCityDB Github](https://github.com/3dcitydb/3dcitydb)
+> [CityGML Official Homepage](https://www.citygml.org/)
 > [3DCityDB and CityGML Hands-on Tutorial](https://www.gis.bgu.tum.de/en/projects/3dcitydb/#c1425)
 
 ## How to use this image
@@ -106,16 +123,16 @@ docker run --name "citydb-wfs-container" -it -p 8080:8080^
 ```
 
 > **Note:**
-> In the examples above long commands are broken to several lines for readability using the Bash (`\`) or CMD (`^`) line continuation.  
+> In the examples above long commands are broken to several lines for readability using the Bash (`\`) or CMD (`^`) line continuation.
 
 #### Test your WFS
 
-When the 3DCityDB WFS has started successfully there are two ways to access the service. We assume the hostname and port of your Docker host are `my-docker-host`:`8080`. The *interactive browser interface* for sending `POST` requests is available here:  
-`http://my-docker-host:8080/citydb-wfs/wfsclient`  
-The *OGC WFS interface* for `GET`requests is available here:  
+When the 3DCityDB WFS has started successfully there are two ways to access the service. We assume the hostname and port of your Docker host are `my-docker-host`:`8080`. The *interactive browser interface* for sending `POST` requests is available here:
+`http://my-docker-host:8080/citydb-wfs/wfsclient`
+The *OGC WFS interface* for `GET`requests is available here:
 `http://my-docker-host:8080/citydb-wfs/wfs?`
 
-To test if your WFS is operational issue a `getCapabilities` request. You can either use the `GET` method or send a `POST` request. To issue a `GET` request open the following URL in your browser:  
+To test if your WFS is operational issue a `getCapabilities` request. You can either use the `GET` method or send a `POST` request. To issue a `GET` request open the following URL in your browser:
 `http://my-docker-host:8080/citydb-wfs/wfs?SERVICE=WFS&REQUEST=GetCapabilities`
 
 To send a `POST` request copy the following `XML` to the web interface *WFS Request* field and hit the *send* button.
@@ -138,23 +155,23 @@ To run the 3DCityDB WFS Docker image you need to adapt the environment variables
 | Parameter name             | Description                                                      | Default value     |
 |----------------------------|----------------------------------------                          |-------------------|
 | TOMCAT_MAX_HEAP            | Maximum heap space available for Tomcat (Java -Xmx switch). Format: &lt;size&gt;[g&#124;G&#124;m&#124;M&#124;k&#124;K], as described [here](https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/jrdocs/refman/optionX.html).    | *1024m*           |
-| CITYDB_CONNECTION_TYPE     | Database type, either *PostGIS* or *Oracle*.                     | *PostGIS*         |  
+| CITYDB_CONNECTION_TYPE     | Database type, either *PostGIS* or *Oracle*.                     | *PostGIS*         |
 | CITYDB_CONNECTION_SERVER   | Database server hostname or IP address.                          | *localhost*     |
 | CITYDB_CONNECTION_PORT     | Database server port.                                            | *5432*            |
 | CITYDB_CONNECTION_SID      | Database SID (Oracle) or database name (PostGIS).                | *citydb* |
 | CITYDB_CONNECTION_USER     | Database user name.                                              | *postgres*        |
 | CITYDB_CONNECTION_PASSWORD | Database user password.                                          | *postgres*|
 
-> **Note:**  
+> **Note:**
 > The 3DCityDB WFS Docker image provided here is based on the official [Apache Tomcat Docker image](https://hub.docker.com/_/tomcat/). Take a look at the documentation for configuration options for Tomcat.
 
 ## Usage examples
 
 Below some examples on how to run the 3DCityDB WFS Docker image are given. By *running* an image, a *container* is created from it. To get familiar with the terms *image* and *container* take a look at the [official Docker documentation](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/).
 
-A 3DCityDB WFS Docker container can be setup to use an arbitrary 3DCityDB instance. Below three example use cases are given.  
-The first use case shows how to run a 3DCityDB WFS Docker container for a 3DCityDB instance on an arbitrary host.  
-The second use case shows how to run a 3DCityDB WFS and Docker container and *link* it to a 3DCityDB Docker container running on the same Docker daemon. To get familiar with [Docker container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) take a look at the official documentation.  
+A 3DCityDB WFS Docker container can be setup to use an arbitrary 3DCityDB instance. Below three example use cases are given.
+The first use case shows how to run a 3DCityDB WFS Docker container for a 3DCityDB instance on an arbitrary host.
+The second use case shows how to run a 3DCityDB WFS and Docker container and *link* it to a 3DCityDB Docker container running on the same Docker daemon. To get familiar with [Docker container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) take a look at the official documentation.
 The third use case show how to run the containers of use case tow in a single command using [Docker Compose](https://docs.docker.com/compose/).
 
 ### 3DCityDB WFS with arbitrary 3DCityDB instance
@@ -214,7 +231,7 @@ docker rm -fv citydb-container  # remove the container with all its data !! DANG
 docker exec -it citydb-container bash  # get an interactive bash shell on a running container
 ```
 
-> **Note:**  
+> **Note:**
 > In the examples above long commands are broken to several lines for readability using bash line continue ("\").
 
 ### 3DCityDB WFS and 3DCityDB container linking
@@ -238,14 +255,14 @@ First, we run a 3DCityDB container, as described [here](https://github.com/tum-g
 
 #### Run linked 3DCityDB WFS container
 
-Second, we run a 3DCityDB WFS container as described in the examples above. Note the usage of the `--link <container name or id>:<alias>` switch of [`docker run`](https://docs.docker.com/engine/reference/commandline/run/). With `<container name or id>` we specify the container we want to link to. In this example we use the container name of the 3DCityDB container we created in step (1). The `<alias>` is an alias for the link name we're creating.  
->**Important:** The alias is set as *hostname* for the container we are linking to. Hence, we can "talk" to the 3DCityDB container from the WFS container using that hostname.  
+Second, we run a 3DCityDB WFS container as described in the examples above. Note the usage of the `--link <container name or id>:<alias>` switch of [`docker run`](https://docs.docker.com/engine/reference/commandline/run/). With `<container name or id>` we specify the container we want to link to. In this example we use the container name of the 3DCityDB container we created in step (1). The `<alias>` is an alias for the link name we're creating.
+>**Important:** The alias is set as *hostname* for the container we are linking to. Hence, we can "talk" to the 3DCityDB container from the WFS container using that hostname.
 
   In this example we set *citydb-container-alias* as `alias`.
 
   ```bash
   # Note the link alias and the CITYDB_CONNECTION_SERVER parameter having the same value!
-  
+
   docker run --name "citydb-wfs-container" -d -p 8765:8080 \
       --link "citydb-container:citydb-container-alias" \
       -e "TOMCAT_MAX_HEAP=2048m" \
@@ -308,7 +325,7 @@ To build a Docker image with a custom *Tomcat base image*, a specific *3DCityDB 
 | citydb_wfs_version      | Version of the 3DCityDB WFS            | *v4.0.0*           |
 | citydb_wfs_context_path | Context path of the 3DCityDB WFS. `http://[host][:port]/[context-path]/` | *citydb-wfs* |
 
-> **Note:**  
+> **Note:**
 > Currently, only 3DCityDB WFS versions `v3.3.0`, `v3.3.1`, `v3.3.2` and `v4.0.0` are supported. The image has been successfully tested with the `tomcat-8.5jre8` base image. According to the [official documentation](https://github.com/3dcitydb/web-feature-service#system-requirements), the 3DcityDB WFS requires Java 8. Java 7 or earlier are not supported.
 
 Build example:
